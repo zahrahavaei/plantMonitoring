@@ -1,0 +1,28 @@
+.Row-Login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;    /* horizontally center items */
+  justify-content: center; /* vertically center items */
+  height: 100vh;           /* full screen height to center vertically */
+}
+
+.Column-Login {
+  margin: 8px 0;
+}
+
+.txt-Login {
+  width: 320px;
+  height: 32px;
+  border-radius: 0px;
+}
+
+.btnLogin {
+  background-color: #f5630d;
+  width: 324px;
+  height: 40px;
+  border-radius: 0px;
+  border: none;
+  color: white;
+  box-sizing: border-box;
+  margin-top: 8px;
+}

@@ -1,0 +1,22 @@
+.div-homepage-Right {
+      flex: 1; 
+  height: 100%;             /* Optional: define height if it's collapsing */
+  min-height: 600px;   
+  /*background-color: bisque;     /* Optional: control layout */
+}
+
+.homepage-img {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  max-width: 100%;          /* Prevents overflow */
+  height: auto;
+}
+.Row-HomePage{
+  display: flex;
+  justify-content: space-between;
+}
+.div-homepage-Left{
+  flex: 1;
+  /*background-color: brown;*/
+}
