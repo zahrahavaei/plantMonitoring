@@ -14,6 +14,7 @@ namespace PlantMonitorring.Models
 
         public bool IsActive { get; set; } = true;
         public string Unit { get; set; }
+        public string PlantName { get; set; }
 
     }
 

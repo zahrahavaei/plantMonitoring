@@ -8,7 +8,7 @@ import AdminDashboard from './Components/AdminDashboard';
 function App() {
   return (
     <>
-    <div className="container">
+    <div className="container-fluid">
       <header>
 
       </header>
@@ -36,6 +36,5 @@ function App() {
     </>
   );
 }
-
 
 export default App;

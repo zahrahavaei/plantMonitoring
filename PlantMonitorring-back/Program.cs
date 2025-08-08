@@ -6,6 +6,10 @@ using PlantMonitorring.DBContext;
 using PlantMonitorring.Services;
 using Microsoft.AspNetCore.Identity;
 using PlantMonitorring.Entity;
+using PlantMonitorring.Convertor;//convertor for date only time only 
+using System.Text.Json.Serialization;
+using System.ComponentModel;//Time only DateOnly
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +28,8 @@ builder.Services.AddCors(options =>
 //.........paswordHasher..........
 
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-//......................
+
+
 //...........Jwt authentication
 builder.Services.AddAuthentication(options =>
 {
@@ -45,26 +50,41 @@ builder.Services.AddAuthentication(options =>
              Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 });
-//.................
-// Add services to the container.
+//.............serialize all enums as strings in JSON responses
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+/*builder.Services
+    .AddControllers()
+.AddNewtonsoftJson(options =>  // <-- keep only if you're using JsonPatchDocument
+{
+     options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+   
+}); */
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+        options.JsonSerializerOptions.Converters.Add(new TimeOnlyJsonConverter());
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IPlantRepositort, PlantRepository>();
+builder.Services.AddScoped<IPlantRepository, PlantRepository>();
+builder.Services.AddScoped<IPlantSensorDataRepository, PlantSensorDataRepository>();
+builder.Services.AddScoped<ISensorRepository, SensorRepository>();
+
+//......................
 
 //setup connection string for sqlite
 var connection =builder.Configuration.GetConnectionString("PlantDbConnectionString");
 builder.Services.AddDbContext<PlantDataBaseContext>(options =>
                  options.UseSqlite(connection));
 
-//..............microsoft netonsoft json patch document
-builder.Services.AddControllers()
-       .AddNewtonsoftJson();
-      
+
 //...................................
+
 var app = builder.Build();
 
 

@@ -60,17 +60,17 @@ namespace PlantMonitorring.Controllers
         [HttpPost()]
         public async Task<IActionResult> LoginAsync( UserDtoPost dto)
         {
-            if (dto == null || string.IsNullOrEmpty(dto.Username) || string.IsNullOrEmpty(dto.Password))
+            if (dto == null || string.IsNullOrEmpty(dto.UserName) || string.IsNullOrEmpty(dto.Password))
             {
                 _logger.LogWarning("Login failed: Invalid user credentials provided.");
                 return BadRequest("Username and password are required.");
             }
 
             var existingUser = await _context.Users.FirstOrDefaultAsync
-                                  (u => u.UserName == dto.Username);
+                                  (u => u.UserName == dto.UserName);
             if (existingUser == null)
             {
-                _logger.LogWarning("Login failed for user {Username}: User not found", dto.Username);
+                _logger.LogWarning("Login failed for user {Username}: User not found", dto.UserName);
                 return Unauthorized("Invalid username or password.");
             }
             var userHasher = new PasswordHasher<User>();
@@ -79,23 +79,24 @@ namespace PlantMonitorring.Controllers
                               (existingUser, existingUser.Password, dto.Password);
             if (verifyPasswod == PasswordVerificationResult.Failed)
             {
-                _logger.LogWarning("Login failed for user {Username}: Invalid password", dto.Username);
+                _logger.LogWarning("Login failed for user {Username}: Invalid password", dto.UserName);
                 return Unauthorized("Invalid username or password.");
             }
             var token = GenerateJwtToken(existingUser.Id,
                 existingUser.UserName, existingUser.Name, existingUser.UserRole.ToString());
             var userDtoResponse = new UserDtoResponseLogin
             {
-                Id = existingUser.Id,
+              
+               
+            };
+            return Ok(new UserDtoResponseLogin
+            {
+                token=token,
+             // Id = existingUser.Id,
                 Name = existingUser.Name,
                 UserName = existingUser.UserName,
                 Email = existingUser.Email,
                 UserRole = existingUser.UserRole
-            };
-            return Ok(new
-            {
-                token,
-                userDtoResponse
 
             });
         }

@@ -5,7 +5,7 @@ using PlantMonitorring.Services.Response;
 
 namespace PlantMonitorring.Services
 {
-    public class PlantRepository : IPlantRepositort
+    public class PlantRepository : IPlantRepository
 
     {
         private readonly PlantDataBaseContext _context;
@@ -20,6 +20,8 @@ namespace PlantMonitorring.Services
         {
             return await _context.Plants.OrderBy(p => p.PlantingDate).ToListAsync();
         }
+        //.............................
+        
         //................................
         public async Task<Plant?> GetPlantByIdAsync(int id, bool includeSensor, bool includePlantSensorData)
         {

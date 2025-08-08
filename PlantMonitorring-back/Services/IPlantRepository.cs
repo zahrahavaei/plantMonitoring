@@ -3,7 +3,7 @@ using PlantMonitorring.Services.Response;
 
 namespace PlantMonitorring.Services
 {
-    public interface IPlantRepositort
+    public interface IPlantRepository
     {
         Task<IEnumerable<Plant>> GetAllPlantsAsync();
 

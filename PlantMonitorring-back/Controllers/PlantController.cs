@@ -23,10 +23,10 @@ namespace PlantMonitorring.Controllers
     [ApiController]
     public class PlantController : ControllerBase
     {
-        private readonly IPlantRepositort _plantRepository;
+        private readonly IPlantRepository _plantRepository;
         private readonly PlantDataBaseContext _context;
 
-        public PlantController(IPlantRepositort plantRepository, PlantDataBaseContext context)
+        public PlantController(IPlantRepository plantRepository, PlantDataBaseContext context)
         {
             _plantRepository = plantRepository;
             _context = context;
@@ -98,7 +98,8 @@ namespace PlantMonitorring.Controllers
                     SensorId = psd.SensorId,
                     PlantId = psd.PlantId,
                     Value = psd.Value,
-                    Timestamp = psd.Timestamp
+                   Time=TimeOnly.FromDateTime(psd.Timestamp),
+                   Date=DateOnly.FromDateTime(psd.Timestamp)
                 }).ToList();
             }
 

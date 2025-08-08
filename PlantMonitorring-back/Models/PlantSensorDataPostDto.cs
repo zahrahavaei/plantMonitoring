@@ -2,9 +2,9 @@
 
 namespace PlantMonitorring.Models
 {
-    public class PlantSensorDataDto
+    public class PlantSensorDataPostDto
     {
-        public int Id { get; set; }
+       
         public DateOnly Date { get; set; }
         public TimeOnly Time { get; set; }
 
@@ -12,10 +12,7 @@ namespace PlantMonitorring.Models
 
         public int SensorId { get; set; }
        
-        public int PlantId { get; set; }
-        public string PlantName { get; set; }
-        public string SensorType { get; set; }
 
-        public string GreenHouseName { get; set; }
+        public int PlantId { get; set; }
     }
 }

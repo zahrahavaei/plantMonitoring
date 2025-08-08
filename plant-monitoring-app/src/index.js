@@ -5,6 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './AuthContext';
 import { BrowserRouter } from 'react-router-dom';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap/dist/css/bootstrap.min.css'; 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,6 +16,16 @@ root.render(
     <BrowserRouter>
     <React.StrictMode>
      <App />
+     <ToastContainer 
+          position="top-center" 
+          autoClose={5000} 
+          hideProgressBar={true}
+          newestOnTop
+          closeOnClick
+          pauseOnHover
+          draggable
+          
+        />
   </React.StrictMode>
   </BrowserRouter>
   </AuthProvider>

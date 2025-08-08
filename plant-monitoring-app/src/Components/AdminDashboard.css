@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+}
+.main{
+   padding-left: 160px;
+   width: 100%;
+}
+.bg-left {
+  background-color: #54554f;
+  color: white;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.bg-middle {
+  
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.bg-right {
+  background-color: #f5630d;
+  color: white;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.no-bullets {
+  list-style: none;
+  padding-left: 0;
+}
+.row-dashoard{
+    width: 100%;
+    
+    display: flex;
+}
