@@ -48,7 +48,8 @@ namespace PlantMonitorring.Controllers
                 Species = p.Species,
                 Location = p.Location,
                 Description = p.Description,
-                PlantingDate = p.PlantingDate,
+                Date = DateOnly.FromDateTime(p.PlantingDate),
+                Time = TimeOnly.FromDateTime(p.PlantingDate),
                 ImageUrl = $"{baseUrl}/img/plant/{p.Image}",
                 IsActive = p.IsActive
             });
@@ -73,18 +74,18 @@ namespace PlantMonitorring.Controllers
                 Species = plant.Species,
                 Location = plant.Location,
                 Description = plant.Description,
-                PlantingDate = plant.PlantingDate,
+                Date = DateOnly.FromDateTime(plant.PlantingDate),
+                Time = TimeOnly.FromDateTime(plant.PlantingDate),
                 ImageUrl = $"{baseUrl}/img/plant/{plant.Image}",
                 IsActive = plant.IsActive,
             };
             if (includeSensor)
             {
-                plantDto.Sensors = plant.Sensor.Select(s => new SensorDto
+                plantDto.Sensors = plant.Sensor.Select(s => new SensorBasicDto
                 {
                     Id = s.Id,
                     Type = s.Type,
                     Location = s.Location,
-                    PlantId = s.PlantId,
                     Unit = s.Unit,
                     IsActive = s.IsActive,
                 }).ToList();
@@ -92,19 +93,60 @@ namespace PlantMonitorring.Controllers
 
             if (includePlantSensorData)
             {
-                plantDto.PlantSensorData = plant.PlantSensorData.Select(psd => new PlantSensorDataDto
+                plantDto.PlantSensorsData = plant.PlantSensorData.Select(psd => new PlantSensorDataBasicDto
                 {
                     Id = psd.Id,
-                    SensorId = psd.SensorId,
-                    PlantId = psd.PlantId,
                     Value = psd.Value,
                    Time=TimeOnly.FromDateTime(psd.Timestamp),
-                   Date=DateOnly.FromDateTime(psd.Timestamp)
+                   Date=DateOnly.FromDateTime(psd.Timestamp),
+                   SensorType=psd.Sensor.Type
                 }).ToList();
             }
 
             return Ok(plantDto);
 
+        }
+        //............................................................
+        [HttpGet("location/{locationname}")]
+        public async Task<ActionResult<IEnumerable<PlantDetailedDto>>>GetPlantByLocationAsync(string locationname)
+        {
+            var plants = await _plantRepository.GetPlantByLocationAsync(locationname);
+            if (!plants.Any())
+            {
+                return NotFound($"No Plant is Available for ${locationname}");
+            }
+            var path = $"{Request.Scheme}://{Request.Host}/";
+            var plantDto = plants.Select(p => new PlantDetailedDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Species = p.Species,
+                Location = p.Location,
+                Description = p.Description,
+                Date = DateOnly.FromDateTime(p.PlantingDate),
+                Time = TimeOnly.FromDateTime(p.PlantingDate),
+                ImageUrl = $"{path}/img/plant/{p.Image}",
+                IsActive = p.IsActive,
+                Sensors = p.Sensor.Select(s => new SensorBasicDto
+                {
+                    Id = s.Id,
+                    Type = s.Type,
+                    Location = s.Location,
+                    IsActive = s.IsActive,
+                    Unit = s.Unit
+                })
+                .ToList(),
+                PlantSensorsData = p.PlantSensorData.Select(psd => new PlantSensorDataBasicDto
+                {
+                    Id = psd.Id,
+                    Value = psd.Value,
+                    Time = TimeOnly.FromDateTime(psd.Timestamp),
+                    Date = DateOnly.FromDateTime(psd.Timestamp),
+                    SensorType = psd.Sensor.Type
+
+                }).ToList()
+            });
+            return Ok(plantDto);
         }
         //........................................
         [HttpPost]
@@ -162,7 +204,8 @@ namespace PlantMonitorring.Controllers
                     Species = result.Plant.Species,
                     Location = result.Plant.Location,
                     Description = result.Plant.Description,
-                    PlantingDate = result.Plant.PlantingDate,
+                   Date =DateOnly.FromDateTime( result.Plant.PlantingDate),
+                   Time = TimeOnly.FromDateTime(result.Plant.PlantingDate),
                     ImageUrl = $"{baseUrl}/img/plant/{result.Plant.Image}",
                     IsActive = result.Plant.IsActive
                 };
@@ -250,7 +293,7 @@ namespace PlantMonitorring.Controllers
                     Species = result.Plant.Species,
                     Location = result.Plant.Location,
                     Description = result.Plant.Description,
-                    PlantingDate = result.Plant.PlantingDate,
+                    Date =DateOnly.FromDateTime( result.Plant.PlantingDate),
                     ImageUrl = $"{baseUrl}/img/plant/{result.Plant.Image}",
                     IsActive = result.Plant.IsActive
                 };
@@ -324,7 +367,8 @@ namespace PlantMonitorring.Controllers
                     Species = plant.Species,
                     Location = plant.Location,
                     Description = plant.Description,
-                    PlantingDate = plant.PlantingDate,
+                    Date =DateOnly.FromDateTime( plant.PlantingDate),
+                    Time = TimeOnly.FromDateTime(plant.PlantingDate),
                     ImageUrl = $"{baseUrl}/img/plant/{plant.Image}",
                     IsActive = plant.IsActive
                 };

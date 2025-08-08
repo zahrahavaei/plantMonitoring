@@ -1,14 +1,23 @@
 import { useContext,useState } from "react";
 import { AuthContext } from "../AuthContext";
 import "./AdminDashboard.css"
-import SensorSlider from "./SensorSlider.js";
-import { Typography } from "@mui/material";
-import GreenHouseSensor from "./GreenHouseSensor.js";
-import SensorChart from "./SensorChart.js";
+
+import GreenHousePlants from "./GreenHousePlants.js";
 
 const AdminDashboard=()=>{
 const {token} =useContext(AuthContext);
-const[greenHouseName,setGreenHouseName]=useState("GreenHouseA");
+
+const setLocationGreenAFunc=()=>{
+ setLocationGreenA(!locationGreenA);
+  setLocationGreenB(false);
+
+}
+const setLocationGreenBFunc=()=>{
+ setLocationGreenB(!locationGreenB);
+ setLocationGreenA(false);
+}
+const[locationGreenA,setLocationGreenA]=useState(false);
+const[locationGreenB,setLocationGreenB]=useState(false);
 return(
     <>
     <div className="main">
@@ -18,11 +27,19 @@ return(
      <div className="col-md-12 row-dashoard">
          <div className="col-md-2 bg-left" >
            <ul>GreenHouses
-              <li onClick={()=>setGreenHouseName("GreenHouseA")}>
+              <li
+               onClick={()=>setLocationGreenAFunc()}
+                style={{cursor:"pointer"}}>
                 GreenHouse A
+                
+                
               </li>
-              <li onClick={()=>setGreenHouseName("GreenHouseB")}>
+              <li
+              onClick={()=>setLocationGreenBFunc()}
+              style={{cursor:"pointer"}}
+              >
                 GreenHouse B
+                
               </li>
            </ul>
          </div>
@@ -32,18 +49,16 @@ return(
              <div className="row">
                 <div className="col-md-5 middle-left">
                <div>
-                 
-                  {greenHouseName && (
-                    <GreenHouseSensor greenHouseName={greenHouseName}  />
-                  )}
+                 {locationGreenA && (
+                  <GreenHousePlants location={"GreenHouseA"} />
+                 )}
+                  
                </div>
                
              </div>
              <div className="col-md-5 middle-right">
                 <div>
-                 {greenHouseName &&(
-                  <SensorChart  greenHouseName={greenHouseName}  />
-                 )}
+                 
                  
                </div>
              </div>

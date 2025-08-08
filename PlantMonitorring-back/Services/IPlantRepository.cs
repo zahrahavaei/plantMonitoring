@@ -8,6 +8,7 @@ namespace PlantMonitorring.Services
         Task<IEnumerable<Plant>> GetAllPlantsAsync();
 
         Task<Plant?> GetPlantByIdAsync(int id, bool includeSensor, bool includePlantSensorData);
+        Task<IEnumerable<Plant>> GetPlantByLocationAsync(string location);
 
         Task<PlantResponse> AddPlantAsync(Plant plant);
 

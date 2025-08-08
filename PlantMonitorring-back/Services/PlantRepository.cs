@@ -80,6 +80,19 @@ namespace PlantMonitorring.Services
             }
         }
         //......................
+        public async Task<IEnumerable<Plant>>GetPlantByLocationAsync(string location)
+        {
+            var plants = await _context.Plants.Where(p => p.Location == location)
+                                              .Include(p=>p.Sensor)
+                                              .Include(p=>p.PlantSensorData)
+                                             .ToListAsync();
+            if(!plants.Any())
+            {
+                _logger.LogInformation($"No plant Available for {location}");
+            }
+            return plants;
+        }
+        //.........................
         public async Task<PlantResponse> UpdatePlantPutAsync(Plant plant)
         {
             var existingPlant = await _context.Plants.FindAsync(plant.Id);

@@ -7,11 +7,17 @@
         public string Species { get; set; }
         public string Location { get; set; }
         public string Description { get; set; }
-        public DateTime PlantingDate { get; set; }
+        public DateOnly Date { get; set; }
+
+        public TimeOnly Time { get; set; }
         public string ImageUrl { get; set; }
         public bool IsActive { get; set; } = true;
 
-        public ICollection<SensorDto> Sensors { get; set; } = new List<SensorDto>();
-        public ICollection<PlantSensorDataDto> PlantSensorData { get; set; } = new List<PlantSensorDataDto>();
+        
+
+        public ICollection<SensorBasicDto> Sensors { get; set; } = 
+            new List<SensorBasicDto>();
+        public ICollection<PlantSensorDataBasicDto> PlantSensorsData { get; set; } =
+            new List<PlantSensorDataBasicDto>();
     }
 }

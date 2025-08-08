@@ -9,7 +9,9 @@ namespace PlantMonitorring.Models
         public string Species { get; set; }
         public string Location { get; set; }
         public string Description { get; set; }
-        public DateTime PlantingDate { get; set; }
+        public DateOnly Date { get; set; }
+
+        public TimeOnly Time { get; set; }
         public string ImageUrl { get; set; }
         public bool IsActive { get; set; } = true;
        

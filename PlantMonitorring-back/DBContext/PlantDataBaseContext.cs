@@ -123,7 +123,7 @@ namespace PlantMonitorring.DBContext
                      Id = 2,
                      Name = "Tulip",
                      Species = "Tulipa",
-                     Location = "GreenHouseB",
+                     Location = "GreenHouseA",
                      Description = "A vibrant yellow tulip.",
                      PlantingDate = new DateTime(2022, 6, 15),
                      Image = "tulip.jpg",
